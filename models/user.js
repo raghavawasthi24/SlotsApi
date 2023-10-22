@@ -13,13 +13,60 @@ let userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  photo:{
-    type:String
+  id:{
+    type:Number,
+    required:true
   },
-  friends: {
-    type: Array,
-    default:[],
-  }
+  slots:{
+    bookedByMe:[
+    {
+        warden_id:{
+            type:String,
+            required:true
+        },
+        day:{
+            type:String,
+            required:true
+        },
+        time:{
+             type:String,
+             required:true
+        },
+        duration:{
+            type:String,
+            required:true
+        },
+        status:{
+            type:String,
+            required:true
+        }
+    }
+],
+bookedByOther:[
+    {
+        warden_id:{
+            type:String,
+            required:true
+        },
+        day:{
+            type:String,
+            required:true
+        },
+        time:{
+             type:String,
+             required:true
+        },
+        duration:{
+            type:String,
+            required:true
+        },
+        status:{
+            type:String,
+            required:true
+        }
+    }
+]
+}
 });
 
 module.exports = mongoose.model("User", userSchema);

@@ -9,9 +9,9 @@ let path = require('path');
 //API for User login
 
 const loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { id, password } = req.body;
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ id });
   if (user) {
     // const match_password=await bcrypt.compare(password,user.password)
     const payload = { _id: user._id };
@@ -22,7 +22,7 @@ const loginUser = async (req, res) => {
       httpOnly: false,
     });
     if (password == user.password) {
-      res.status(200).json({ msg: "Logeed in", jwt_token: cookie_token,id:user._id });
+      res.status(200).json({ msg: "Logeed in", jwt_token: cookie_token,mongo_id:user._id });
     } else {
       res.status(200).json({ msg: "password not matched" });
     }
@@ -34,7 +34,7 @@ const loginUser = async (req, res) => {
 //API for New User Registration
 
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password ,id} = req.body;
 
   // Check if the user already exists in the database
   try {
@@ -49,6 +49,7 @@ const registerUser = async (req, res) => {
       name: name,
       email: email,
       password: password,
+      id:id
     });
 
     // Save the user to the database
