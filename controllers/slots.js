@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
 let path = require("path");
+// const auth = require("./middleware/auth");
 
 const bookSlot = async (req, res) => {
   const { id, warden_id, day, time, duration, status } = req.body;
@@ -44,7 +45,8 @@ const allSlot = async (req, res) => {
     } else {
       return res.status(404).json({ msg: "User not found" });
     }
-  } catch {
+  } catch (err) {
+    console.log(err)
     return res.status(500).json({ msg: "Something went wrong" });
   }
 };
@@ -71,13 +73,19 @@ const completedSlot = async (req, res) => {
     const user = await User.findOne({ _id: id });
 
     if (user) {
-      const slot = user.slots.bookedByOther.findOne({ _id: slot_id });
-      await slot.updateOne({ $set: { status: "Completed" } });
+      // const slot = user.slots.bookedByOther.findOne({ _id: slot_id });
+      const slot = user.slots.bookedByOther;
+      const current_slot = slot.filter((slot)=>slot._id==slot_id)
+      console.log(current_slot[0].status)
+      current_slot[0].status="Completed";
+      await user.save();
+      // await slot.updateOne({ $set: { status: "Completed" } });
       return res.status(200).json({ msg: "This session is completed" });
     } else {
       return res.status(404).json({ msg: "Slot not found" });
     }
-  } catch {
+  } catch(err) {
+    console.log(err)
     return res.status(500).json({ msg: "Something went wrong" });
   }
 };
