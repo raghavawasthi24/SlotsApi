@@ -14,7 +14,7 @@ let userSchema = mongoose.Schema({
     required: true,
   },
   id:{
-    type:Number,
+    type:String,
     required:true
   },
   slots:{
@@ -24,6 +24,10 @@ let userSchema = mongoose.Schema({
             type:String,
             required:true
         },
+        date:{
+            type:String,
+            required:true
+        },
         day:{
             type:String,
             required:true
@@ -34,11 +38,7 @@ let userSchema = mongoose.Schema({
         },
         duration:{
             type:String,
-            required:true
-        },
-        status:{
-            type:String,
-            required:true
+            default:"1 Hour"
         }
     }
 ],
@@ -48,6 +48,10 @@ bookedByOther:[
             type:String,
             required:true
         },
+        date:{
+            type:String,
+            required:true
+        },
         day:{
             type:String,
             required:true
@@ -58,11 +62,7 @@ bookedByOther:[
         },
         duration:{
             type:String,
-            required:true
-        },
-        status:{
-            type:String,
-            required:true
+            default:"1 Hour"
         }
     }
 ]

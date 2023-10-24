@@ -1,6 +1,5 @@
 require("dotenv").config();
 const express=require("express");
-const bodyparser=require("body-parser");
 const PORT=5000;
 const app=express(); 
 const cors=require("cors");
@@ -11,9 +10,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors())
 
 
-// app.use("/api",postRouter);
 app.use("/api",require("./routes/index.js"));
-// app.use("/api",require("./controllers/addPhoto.js"));
 
 app.get("/",(req,res)=>{
     res.status(200).json({
