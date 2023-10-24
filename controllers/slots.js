@@ -63,7 +63,7 @@ const pendingSlot = async (req, res) => {
     const user = await User.findOne({ id: id });
     if (user) {
       const now = Date.now();
-      const dates = new Date();
+      // const dates = new Date();
       console.log("now",now)
       const pendingSlots = user.slots.bookedByOther.filter(
         (date) => {return new Date(date.date).getTime() > now;}
@@ -79,29 +79,4 @@ const pendingSlot = async (req, res) => {
 };
 
 
-//API for changing status to completed
-
-const completedSlot = async (req, res) => {
-  const { id, slot_id } = req.body;
-  try {
-    const user = await User.findOne({ id: id });
-
-    if (user) {
-      // const slot = user.slots.bookedByOther.findOne({ _id: slot_id });
-      const slot = user.slots.bookedByOther;
-      const current_slot = slot.filter((slot) => slot._id == slot_id);
-      console.log(current_slot[0].status);
-      current_slot[0].status = "Completed";
-      await user.save();
-      // await slot.updateOne({ $set: { status: "Completed" } });
-      return res.status(200).json({ msg: "This session is completed" });
-    } else {
-      return res.status(404).json({ msg: "Slot not found" });
-    }
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({ msg: "Something went wrong" });
-  }
-};
-
-module.exports = { bookSlot, allSlot, pendingSlot, completedSlot };
+module.exports = { bookSlot, allSlot, pendingSlot};
